@@ -1,0 +1,127 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html>
+	<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+	    <meta name="viewport" content="width=device-width,minimum-scale=1.0,maximum-scale=1.0"/>
+		<title>Untitled Document</title>
+		<style>
+			*{margin:0;padding:0;}
+			body{
+				background-color:black;
+				color:white;
+				font-size:16px;
+				font-family:Arial,Helvetica,sans-serif;
+				line-height:130%;
+			}
+			.unrun .side_state{
+				background-color:white;
+			}
+			.running .side_state{
+				background-color:yellow;
+			}
+			.fail .side_state{
+				background-color:red;
+			}
+			.pass .side_state{
+				background-color:green;
+			}
+			
+			.test_item{
+				margin-left:20px;
+				padding-left:10px;
+				position:relative;
+				min-height:60px;
+				background-color: rgba(86, 86, 86, 0.5);
+				border-top:1px solid #474747;
+				border-bottom:1px solid black;
+			}
+			
+			.test_item .side_state{
+				position:absolute;
+				left:-20px;
+				width:20px;
+				height:100%;
+				padding-top:1px;
+			}
+			
+			.err{
+				color:red;
+			}
+			
+		</style>
+		<script src="./ut.js"></script>
+		<script>
+			t.add("testAssert",{
+				"asertNumber":function(){
+					t.is(5,5);
+				},
+				"assertObject":function(){
+					t.is({number:32,string:"str",obj:{arr:[1,2,4],regExp:/^i/}},{number:32,string:"str",obj:{arr:[1,2,4],regExp:/^i/}});
+					
+				}
+			})
+			
+			t.add("testCase",{
+				"test1":function(){
+					t.log("test1 run...");
+					t.is(5,5);
+					t.is(6,6);
+				},
+				"test2":function(){
+					t.log("test2 run...");
+					t.is(5,100);
+					
+				},
+				"_test3":function(){
+					t.log("should not run...");
+				},
+				"_test4":"should not run",
+				"test5":function(){
+					throw new Error("should error");
+				},
+				"test6":function(){
+					t.log("nomal test6 run....");
+					this._test3();
+					t.log("exe test3");
+				}
+			});
+			t.add("testCase2",{
+				"test1":function(){
+					t.log("test1 run...");
+				},
+				"test2":function(){
+					t.goNext = false;
+					t.log("test2 run...");
+					setTimeout(function(){
+						t.log("continue");
+						throw new Error("should error");
+						t.goNext = true;
+					},1000);
+				},
+				"_test3":function(){
+					t.log("should not run...");
+				},
+				"_test4":"should not run",
+				"test5":function(){
+					throw new Error("should error test5");
+				},
+				"test6":function(){
+					t.log("nomal test6 run....");
+				},
+				"test7":function(){
+					t.goNext = false;
+					t.log("test7 start run...");
+					setTimeout(function(){
+						t.log("wait for the maxwaiting time");
+					},1000);
+				},
+				"test8":function(){
+					t.log("continue the next when time out");
+				}
+			});
+			
+		</script>
+	</head>
+	<body>
+	</body>
+</html>
