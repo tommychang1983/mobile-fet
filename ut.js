@@ -17,7 +17,7 @@ var t = t ||{};
 	var MAX_WAITING_TIME = 2000;
 	var waitingTime = 0;
 
-	
+
 	/**
 	 * 添加case加入到执行列表中。
 	 */
@@ -280,8 +280,40 @@ var t = t ||{};
 	        return result;
 	    }
 	}
-		
-	
+
+	/*********************
+	* Add css styles
+	*
+	*********************/
+	addStyle("*","margin:0;padding:0;");
+	addStyle("body","background-color:black;color:white;font-size:16px;font-family:Arial,Helvetica,sans-serif;line-height:130%;")
+	addStyle(".unrun .side_state","background-color:white;");
+	addStyle(".running .side_state","background-color:yellow;");
+	addStyle(".fail .side_state","background-color:red;");
+	addStyle(".pass .side_state","background-color:green;");
+	addStyle(".test_item","margin-left:20px;padding-left:10px;position:relative;min-height:60px;background-color: rgba(86, 86, 86, 0.5);border-top:1px solid #474747;border-bottom:1px solid black;");
+	addStyle(".test_item .side_state","position:absolute;left:-20px;width:20px;height:100%;padding-top:1px;")
+	addStyle(".err","color:red;");
+
+
+
+    function addStyle(name, value){
+        // FIXME \u9700\u8981\u6ce8\u610fIE\u4e0b\u976236\u4e2astyle\u6807\u7b7e\u7684\u95ee\u9898
+        var ss = document.styleSheets;
+        if(!ss || ss.length <= 0){
+            // console.log("not found styleSheets, create a new one");
+            var e = document.createElement("STYLE");
+            e.type = "text/css";
+            // \u5373\u4fbf\u6587\u6863\u4e2d\u6ca1\u6709\u5199HEAD\u6807\u7b7e, \u5b9e\u9645\u4e0a\u8fd8\u662f\u53ef\u4ee5\u53d6\u5230\u7684
+            var head = document.getElementsByTagName("HEAD")[0];
+            head.appendChild(e);
+        }
+        ss = document.styleSheets;
+        ss = ss[ss.length - 1];
+
+        ss.insertRule(name + " { " + value + " }", ss.cssRules.length);
+
+    };
 	
 	function commonHandler(test,expect){
 		if(test !== expect){
